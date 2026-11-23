@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EduMaxim for Coaching Institutes</title>
+<meta name="description" content="OMR tests marked with a phone camera, rank lists, and a growth graph for every student. EduMaxim for NEET, JEE and foundation coaching institutes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* EduMaxim: logo navy, saffron dot, paper white. Layout: a story in four steps (key → print → photo → ranks & growth), each step with a picture of the real screen. */
+:root {
+  --ink: #142057; --ink-2: #2A3F9E; --deep: #0B1440; --saffron: #F5A524; --saffron-ink: #9A5200; --saffron-wash: #FFF4DC;
+  --paper: #F6F7FB; --card: #FFFFFF; --text: #10162F; --muted: #4A5170; --faint: #5F6888; --rule: #DDE1EE; --wash: #F0F2FD;
+  --green: #1F7A4D; --green-b: #1F9D61; --green-wash: #E6F5EE; --red: #C42B2B; --red-wash: #FCEFEF; --violet: #5B3CC4; --violet-wash: #EFEAFE;
+  --display: 'Sora', 'Plus Jakarta Sans', system-ui, sans-serif; --body: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--paper); color: var(--text); font: 16px/1.6 var(--body); }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+a { color: var(--ink-2); font-weight: 700; }
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+/* Header */
+.top { background: linear-gradient(160deg, #1C2B70, var(--ink) 55%, var(--deep)); color: #fff; padding: 22px 0 90px; position: relative; overflow: hidden; }
+.top::after { content: ''; position: absolute; right: -120px; top: -120px; width: 380px; height: 380px; border-radius: 50%; background: rgba(255,255,255,.05); }
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.logo { display: flex; align-items: center; gap: 10px; font: 700 21px var(--display); }
+.logo .tile { width: 38px; height: 38px; border-radius: 11px; background: #fff; display: grid; place-items: center; position: relative; }
+.logo .tile svg { width: 26px; height: 26px; }
+.logo b { font-weight: 700; } .logo span { font-weight: 600; opacity: .85; }
+.nav a { color: #fff; font-size: 14px; text-decoration: none; border: 1px solid rgba(255,255,255,.3); padding: 8px 14px; border-radius: 999px; }
+.hero { display: grid; grid-template-columns: 1.15fr .85fr; gap: 40px; align-items: center; margin-top: 54px; position: relative; z-index: 1; }
+.eyebrow { color: var(--saffron); font: 700 13px var(--body); letter-spacing: 1.4px; text-transform: uppercase; }
+.hero h1 { font: 700 clamp(32px, 5vw, 52px)/1.08 var(--display); margin-top: 12px; }
+.hero p { color: #C9D0EE; font-size: 18px; max-width: 54ch; margin: 18px 0 0; }
+.chips { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 26px; }
+.chip { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); border-radius: 14px; padding: 10px 14px; }
+.chip b { display: block; font: 700 22px var(--display); color: #fff; }
+.chip span { font-size: 13px; color: #A9B2D9; }
+
+/* Phone frame for screen pictures */
+.phone { width: 300px; max-width: 100%; margin: 0 auto; background: var(--paper); border-radius: 34px; border: 9px solid #0B0F22; box-shadow: 0 30px 60px rgba(5,10,35,.35); overflow: hidden; font-size: 13px; }
+.ph-head { background: linear-gradient(160deg, #1C2B70, var(--ink)); color: #fff; padding: 16px 16px 34px; }
+.ph-head b { font: 700 16px var(--display); display: block; }
+.ph-head span { font-size: 11.5px; color: #A9B2D9; }
+.ph-body { margin-top: -20px; padding: 0 12px 14px; display: grid; gap: 9px; }
+.pc { background: #fff; border-radius: 16px; border: 1px solid #EBEDF5; padding: 12px; }
+.lbl { font: 700 9.5px var(--body); letter-spacing: 1px; text-transform: uppercase; color: var(--faint); }
+.pill { display: inline-block; font: 700 10.5px var(--body); padding: 3px 8px; border-radius: 999px; }
+.p-green { background: var(--green-wash); color: var(--green); } .p-red { background: var(--red-wash); color: var(--red); } .p-ink { background: #ECEFF8; color: var(--ink); }
+.p-gold { background: var(--saffron-wash); color: var(--saffron-ink); } .p-violet { background: var(--violet-wash); color: var(--violet); }
+.row { display: flex; align-items: center; gap: 8px; }
+.sp { justify-content: space-between; }
+.bub { display: flex; align-items: center; gap: 4px; padding: 3px 6px; border-radius: 9px; }
+.bub i { font-style: normal; width: 22px; text-align: right; font-weight: 700; color: var(--muted); font-size: 11.5px; margin-right: 2px; }
+.bub span { width: 22px; height: 22px; border-radius: 50%; border: 1.2px solid var(--rule); display: grid; place-items: center; font: 700 10px var(--body); color: var(--faint); background: #fff; }
+.bub span.on { background: var(--ink); border-color: var(--ink); color: #fff; }
+.bub span.bad { background: var(--red); border-color: var(--red); color: #fff; }
+.bub span.key { border: 2px solid var(--green-b); color: var(--green); }
+.bub.flag { background: var(--saffron-wash); }
+.bub.flag i { color: var(--saffron-ink); }
+.rank { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: 12px; background: var(--saffron-wash); color: var(--saffron-ink); flex: none; }
+.rank.n { background: #ECEFF8; color: var(--ink); }
+.li { display: flex; gap: 10px; align-items: center; padding: 8px 0; border-top: 1px solid #EBEDF5; }
+.li:first-child { border-top: 0; }
+.li .nm { flex: 1; min-width: 0; } .li .nm b { display: block; font-size: 12.5px; } .li .nm span { font-size: 10.5px; color: var(--faint); }
+.score { font: 800 15px var(--display); color: var(--ink); text-align: right; } .score small { font: 600 10px var(--body); color: var(--faint); }
+.tool { display: flex; gap: 10px; align-items: center; padding: 7px 0; border-top: 1px solid #EBEDF5; }
+.tool:first-child { border-top: 0; }
+.ic { width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; flex: none; }
+.tool b { font-size: 12px; display: block; } .tool span { font-size: 10px; color: var(--faint); }
+
+/* Sections */
+section { padding: 70px 0 0; }
+.sec-head { max-width: 720px; }
+.sec-head h2 { font: 700 clamp(26px, 3.4vw, 36px)/1.15 var(--display); color: var(--ink); margin-top: 8px; }
+.sec-head p { color: var(--muted); margin: 12px 0 0; font-size: 17px; }
+.kicker { color: var(--saffron-ink); font: 700 12.5px var(--body); letter-spacing: 1.3px; text-transform: uppercase; }
+.step { display: grid; grid-template-columns: 1fr 340px; gap: 40px; align-items: center; margin-top: 46px; }
+.step.flip { grid-template-columns: 340px 1fr; }
+.step.flip .copy { order: 2; }
+.num { width: 40px; height: 40px; border-radius: 12px; background: var(--ink); color: #fff; display: grid; place-items: center; font: 700 18px var(--display); }
+.copy h3 { font: 700 24px/1.2 var(--display); margin-top: 14px; color: var(--text); }
+.copy p { color: var(--muted); margin: 10px 0 0; max-width: 56ch; }
+.copy ul { margin: 14px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.copy li { padding-left: 26px; position: relative; }
+.copy li::before { content: ''; position: absolute; left: 4px; top: 9px; width: 9px; height: 9px; border-radius: 50%; background: var(--saffron); }
+.pdf { background: #fff; border: 1px solid var(--rule); border-radius: 14px; box-shadow: 0 18px 40px rgba(20,32,87,.12); overflow: hidden; }
+.pdf canvas { display: block; width: 100%; height: auto; }
+.pdf .cap { font-size: 12.5px; color: var(--faint); padding: 8px 12px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; gap: 8px; }
+.pdf .cap a { font-weight: 700; }
+
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 30px; }
+.feat { background: var(--card); border: 1px solid var(--rule); border-radius: 18px; padding: 20px; }
+.feat h3 { font: 700 17px var(--display); color: var(--ink); }
+.feat p { color: var(--muted); margin: 8px 0 0; font-size: 15px; }
+.feat .ic { width: 40px; height: 40px; border-radius: 12px; margin-bottom: 12px; }
+
+.cta { margin: 80px 0 0; background: linear-gradient(160deg, #1C2B70, var(--ink) 60%, var(--deep)); color: #fff; border-radius: 26px; padding: 40px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 30px; align-items: center; }
+.cta h2 { font: 700 clamp(24px, 3vw, 32px)/1.2 var(--display); }
+.cta p { color: #C9D0EE; margin: 10px 0 0; }
+.cta .contact { display: grid; gap: 10px; }
+.cta .contact a { background: #fff; color: var(--ink); text-decoration: none; border-radius: 14px; padding: 14px 16px; display: flex; justify-content: space-between; gap: 10px; }
+.cta .contact a.gold { background: var(--saffron); color: var(--deep); }
+footer { color: var(--faint); font-size: 13.5px; padding: 30px 0 40px; text-align: center; }
+a:focus-visible { outline: 3px solid var(--saffron); outline-offset: 3px; }
+
+@media (max-width: 860px) {
+  .hero, .step, .step.flip, .cta { grid-template-columns: 1fr; }
+  .step.flip .copy { order: 0; }
+  .grid3 { grid-template-columns: 1fr; }
+  .cta { padding: 28px 22px; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <nav class="nav" aria-label="EduMaxim">
+      <div class="logo">
+        <span class="tile" aria-hidden="true"><svg viewBox="0 0 100 100"><path d="M30.8 67.8 L30.8 39.9 L47.8 58.4 L69.6 31.5 L69.6 67.8" fill="none" stroke="#142057" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/><circle cx="47.5" cy="22" r="6" fill="#F5A524"/></svg></span>
+        <span><span>Edu</span><b>Maxim</b></span>
+      </div>
+      <a href="https://www.edumaxim.com">www.edumaxim.com</a>
+    </nav>
+    <div class="hero">
+      <div>
+        <div class="eyebrow">For NEET, JEE & foundation coaching</div>
+        <h1>OMR tests marked by your phone camera. Ranks and growth for every student.</h1>
+        <p>Give the answer key, print the OMR sheets, photograph each filled sheet. EduMaxim reads every bubble, marks with negative marking, ranks the batch, and shows parents how their child is growing, test after test.</p>
+        <div class="chips">
+          <div class="chip"><b>200</b><span>questions per OMR sheet</span></div>
+          <div class="chip"><b>+4 / −1</b><span>NEET & JEE marking</span></div>
+          <div class="chip"><b>No OMR machine</b><span>just a phone</span></div>
+        </div>
+      </div>
+      <div class="phone" role="img" aria-label="EduMaxim teacher screen: tools for a paper test">
+        <div class="ph-head"><b>NEET Full Mock Test 3</b><span>Full Mock Test · NEET 2027-Morning · on paper</span></div>
+        <div class="ph-body">
+          <div class="pc">
+            <div class="row sp" style="margin-bottom:4px"><span class="lbl">Paper test &amp; OMR</span><span class="pill p-violet">OMR</span></div>
+            <div class="tool"><span class="ic" style="background:#E6ECFF"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2A3F9E" stroke-width="2.2"><path d="M6 9V3h12v6M6 18H4v-7h16v7h-2M8 14h8v7H8z"/></svg></span><div><b>Print OMR sheets</b><span>Blank, or one per student with roll no.</span></div></div>
+            <div class="tool"><span class="ic" style="background:#FFF4DC"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9A5200" stroke-width="2.2"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg></span><div><b>Scan OMR sheets</b><span>Photograph, check, save, next</span></div></div>
+            <div class="tool"><span class="ic" style="background:#E6F5EE"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1F7A4D" stroke-width="2.2"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg></span><div><b>Upload answers from Excel</b><span>Template or an OMR machine export</span></div></div>
+            <div class="tool"><span class="ic" style="background:#FCEFEF"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C42B2B" stroke-width="2.2"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3"/></svg></span><div><b>Fix the answer key</b><span>Every result is marked again</span></div></div>
+            <div class="tool"><span class="ic" style="background:#EFEAFE"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5B3CC4" stroke-width="2.2"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/></svg></span><div><b>Download rank list</b><span>Rank, %, section-wise, every answer</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section aria-labelledby="how">
+    <div class="sec-head">
+      <div class="kicker">How it works</div>
+      <h2 id="how">From answer key to rank list in one morning</h2>
+      <p>Everything a coaching teacher does after a mock test, on one phone. No OMR scanner, no spreadsheets to total by hand.</p>
+    </div>
+
+    <div class="step">
+      <div class="copy">
+        <div class="num">1</div>
+        <h3>Give the answer key in one line</h3>
+        <p>Your question paper is already printed? Type the key as letters, <b>BADCC ABDCA…</b>, or tap the bubbles. Add sections like <b>1-45 Physics, 46-90 Chemistry</b> to get section-wise results.</p>
+        <ul><li>Up to 200 questions, options A–D or A–E</li><li>NEET/JEE negative marking: ¼, ⅓, ½ or a full mark</li><li>Or write the questions and print a question paper from EduMaxim</li></ul>
+      </div>
+      <div class="phone" role="img" aria-label="Answer key being typed and shown as bubbles">
+        <div class="ph-head"><b>New OMR test on paper</b><span>NEET 2027-Morning · Full Mock Test</span></div>
+        <div class="ph-body"><div class="pc">
+          <div class="lbl">Type or paste the key</div>
+          <div style="border:1px solid var(--rule);border-radius:10px;padding:8px 10px;margin:6px 0 10px;font-weight:600;letter-spacing:.5px">BADCC ABDCA DDBAC CABDB</div>
+          <div class="row sp"><b style="font-size:12px">Answer key</b><span style="font-size:11px;color:var(--green);font-weight:700">20 of 20 answered</span></div>
+          <div id="keygrid" style="margin-top:6px"></div>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="step flip">
+      <div class="copy">
+        <div class="num">2</div>
+        <h3>Print the OMR sheets: blank, or with names</h3>
+        <p>A clean A4 sheet with your institute's name and the EduMaxim logo. Print one blank sheet to photocopy, or one per student with the <b>name printed and roll number already filled in</b>. The black corner squares let a phone read the sheet from any angle.</p>
+        <ul><li>Roll number grid, signature lines, filling instructions</li><li>Question paper PDF numbered to match</li></ul>
+      </div>
+      <div class="pdf"><canvas id="pdf-omr" aria-label="A real EduMaxim OMR answer sheet"></canvas><div class="cap"><span>A real sheet from the demo institute</span><a href="assets/omr-sheet.pdf">Open the PDF</a></div></div>
+    </div>
+
+    <div class="step">
+      <div class="copy">
+        <div class="num">3</div>
+        <h3>Photograph each sheet. Check. Save. Next.</h3>
+        <p>The roll number finds the student, every bubble is read, and the score appears straight away. Faint, rubbed-out or double marks are highlighted, so the teacher checks only what needs checking. <b>Save &amp; scan next</b> opens the camera again.</p>
+        <ul><li>Works with tilted, sideways or upside-down photos and uneven classroom light</li><li>Two filled circles count as wrong</li><li>Already have an OMR machine? Upload its Excel export instead</li><li>Read on your own server: no AI service, no extra cost per sheet</li></ul>
+      </div>
+      <div class="phone" role="img" aria-label="Checking a scanned sheet before saving">
+        <div class="ph-head"><b>Check the sheet</b><span>Read from the photo · nothing saved yet</span></div>
+        <div class="ph-body">
+          <div class="pc" style="background:#F0F2FD"><div class="row"><span class="rank n">IV</span><div class="nm" style="flex:1"><b style="font-size:13px">Ishaan Verma</b><div style="font-size:10.5px;color:var(--faint)">Roll no. 1 · found by roll number</div></div><span class="pill p-ink">Change</span></div></div>
+          <div class="row" style="flex-wrap:wrap;gap:6px"><span style="background:var(--ink);color:#fff;border-radius:12px;padding:5px 10px;font:800 15px var(--display)">166<small style="font:600 10px var(--body);color:#A9B2D9"> / 240</small></span><span class="pill p-green">44 right</span><span class="pill p-red">10 wrong</span><span class="pill p-ink">6 blank</span></div>
+          <div class="pc" id="scangrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step flip">
+      <div class="copy">
+        <div class="num">4</div>
+        <h3>Ranks for the batch. Growth for every student.</h3>
+        <p>The rank list fills in as sheets are saved: ties share a rank, and every result shows where it came from. Parents get one alert with the score, then see their child's <b>rank in the batch</b>, section-wise bars, every answer against the key, and a <b>growth graph</b> across all tests.</p>
+        <ul><li>Wrong key? Fix it once and every result is marked again</li><li>Rank list in Excel with section-wise % and every answer</li><li>Growth graph: score in each test against the batch average</li></ul>
+      </div>
+      <div class="phone" role="img" aria-label="Growth graph of a student across mock tests">
+        <div class="ph-head"><b>Growth in tests</b><span>Ishaan Verma · NEET 2027-Morning</span>
+          <div class="row" style="gap:6px;margin-top:10px">
+            <div style="flex:1;background:rgba(255,255,255,.08);border-radius:10px;padding:6px 8px"><div style="font-size:9.5px;color:#A9B2D9">Average</div><b style="font-size:15px">66%</b></div>
+            <div style="flex:1;background:rgba(255,255,255,.08);border-radius:10px;padding:6px 8px"><div style="font-size:9.5px;color:#A9B2D9">Growth</div><b style="font-size:15px;color:#7FE0AE">+6 pts</b></div>
+            <div style="flex:1;background:rgba(255,255,255,.08);border-radius:10px;padding:6px 8px"><div style="font-size:9.5px;color:#A9B2D9">Latest rank</div><b style="font-size:15px">12/27</b></div>
+          </div>
+        </div>
+        <div class="ph-body">
+          <div class="pc">
+            <div class="lbl">Score in each test</div>
+            <div class="row" style="gap:12px;margin:6px 0 2px;font-size:10.5px;color:var(--faint)"><span class="row" style="gap:5px"><i style="width:14px;height:3px;border-radius:2px;background:var(--ink-2);display:inline-block"></i>Ishaan</span><span class="row" style="gap:5px"><i style="width:14px;border-top:2px dashed var(--saffron);display:inline-block"></i>Batch average</span></div>
+            <svg id="growth" viewBox="0 0 260 150" width="100%" role="img" aria-label="Scores: Mock 1 63%, Mock 2 69%, Mock 3 71%, Mock 4 74%; batch average about 60%"></svg>
+          </div>
+          <div class="pc">
+            <div class="lbl" style="margin-bottom:4px">Sections · weakest first</div>
+            <div class="li"><div class="nm"><b>Physics</b><span>+7 pts since first</span></div><span class="score" style="font-size:13px">60%</span></div>
+            <div class="li"><div class="nm"><b>Chemistry</b><span>+26 pts since first</span></div><span class="score" style="font-size:13px">73%</span></div>
+            <div class="li"><div class="nm"><b>Biology</b><span>−7 pts since first</span></div><span class="score" style="font-size:13px">80%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="ranks">
+    <div class="step" style="margin-top:0">
+      <div class="copy">
+        <div class="kicker">Rank list</div>
+        <h2 id="ranks" style="font:700 clamp(24px,3vw,32px)/1.2 var(--display);color:var(--ink);margin-top:8px">Know the toppers and who needs help, the same day</h2>
+        <p>Every mock test gets a live rank list, a question-by-question summary (what share chose each option), and a downloadable Excel rank list for notice boards and parent meetings.</p>
+      </div>
+      <div class="phone" role="img" aria-label="Rank list of a NEET mock test">
+        <div class="ph-head"><b>NEET Full Mock Test 1</b><span>NEET 2027-Evening · 23 of 24 marked</span></div>
+        <div class="ph-body"><div class="pc">
+          <div class="lbl" style="margin-bottom:2px">Rank list</div>
+          <div class="li"><span class="rank">1</span><div class="nm"><b>Parth Bansal</b><span>53 right · 5 wrong · roll 13</span></div><div class="score">207<small>/240</small><br><span class="pill p-green">Excel</span></div></div>
+          <div class="li"><span class="rank">2</span><div class="nm"><b>Atharv Mathur</b><span>52 right · 6 wrong · roll 22</span></div><div class="score">202<small>/240</small><br><span class="pill p-violet">OMR</span></div></div>
+          <div class="li"><span class="rank">3</span><div class="nm"><b>Yash Saini</b><span>48 right · 7 wrong · roll 4</span></div><div class="score">185<small>/240</small><br><span class="pill p-violet">OMR</span></div></div>
+          <div class="li"><span class="rank n">4</span><div class="nm"><b>Ishaan Mathur</b><span>47 right · 9 wrong · roll 9</span></div><div class="score">179<small>/240</small><br><span class="pill p-ink">Typed</span></div></div>
+        </div></div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="all">
+    <div class="sec-head">
+      <div class="kicker">Built for coaching</div>
+      <h2 id="all">Only what a coaching institute needs</h2>
+      <p>Batches, fees in instalments, tests and growth. No school-only clutter like report cards, library or bus routes.</p>
+    </div>
+    <div class="grid3">
+      <div class="feat"><div class="ic" style="background:#E6ECFF"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2A3F9E" stroke-width="2.2"><path d="M17 20v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M10 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8M21 20v-2a4 4 0 0 0-3-3.9M16 2.1a4 4 0 0 1 0 7.8"/></svg></div><h3>Batches with any name</h3><p>NEET 2027 · Morning, JEE 2027 · Evening, Foundation 10 · Weekend. Each with its subject faculty.</p></div>
+      <div class="feat"><div class="ic" style="background:#FFF4DC"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9A5200" stroke-width="2.2"><rect x="2" y="6" width="20" height="13" rx="2"/><path d="M2 10h20M6 15h4"/></svg></div><h3>Course fee in instalments</h3><p>Bill a batch in one tap, collect by UPI, cash or bank, numbered receipts, and one-tap reminders for dues.</p></div>
+      <div class="feat"><div class="ic" style="background:#E6F5EE"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F7A4D" stroke-width="2.2"><path d="M9 11l3 3 8-8M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg></div><h3>Attendance with alerts</h3><p>Mark a batch in seconds; parents of absent students hear straight away. Below-75% list for counsellors.</p></div>
+      <div class="feat"><div class="ic" style="background:#FFF4DC"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9A5200" stroke-width="2.2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4"/></svg></div><h3>Online tests too</h3><p>Chapter quizzes on the phone with a server-kept timer, shuffled questions and instant topic-wise results.</p></div>
+      <div class="feat"><div class="ic" style="background:#EFEAFE"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5B3CC4" stroke-width="2.2"><path d="M3 17l6-6 4 4 8-8M14 7h7v7"/></svg></div><h3>Practice for weak topics</h3><p>Each student practises the questions they missed and their weakest topics from past tests.</p></div>
+      <div class="feat"><div class="ic" style="background:#E6F5EE"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1F7A4D" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><h3>SMS and WhatsApp</h3><p>Results, dues and notices reach parents on WhatsApp or SMS, with a log of every message.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="paper">
+    <div class="step flip" style="margin-top:0">
+      <div class="copy">
+        <div class="kicker">Question paper</div>
+        <h2 id="paper" style="font:700 clamp(24px,3vw,32px)/1.2 var(--display);color:var(--ink);margin-top:8px">Write a DPP once, print it neatly</h2>
+        <p>Type the questions in EduMaxim and print a clean, numbered question paper with your institute's header, ready for the OMR sheet.</p>
+      </div>
+      <div class="pdf"><canvas id="pdf-qp" aria-label="A question paper printed from EduMaxim"></canvas><div class="cap"><span>DPP 12 · Laws of Motion</span><a href="assets/question-paper.pdf">Open the PDF</a></div></div>
+    </div>
+  </section>
+
+  <div class="cta">
+    <div>
+      <h2>See it with your own batches</h2>
+      <p>We set up EduMaxim with your batches, faculty and fee plan, and walk your teachers through their first OMR test.</p>
+    </div>
+    <div class="contact">
+      <a class="gold" href="https://wa.me/917830241494"><b>WhatsApp us</b><span>+91 78302 41494</span></a>
+      <a href="https://www.edumaxim.com"><b>Website</b><span>www.edumaxim.com</span></a>
+      <a href="mailto:edumaximofficial@gmail.com"><b>Email</b><span>edumaximofficial@gmail.com</span></a>
+    </div>
+  </div>
+</main>
+<footer>EduMaxim · Smart school and coaching management · Demo data shown: Shikhar Coaching Institute is a sample institute.</footer>
+
+<script>
+// Answer key bubbles (step 1)
+const KEY = 'BADCCABDCA'.split('').map(c => c.charCodeAt(0) - 65);
+const kg = document.getElementById('keygrid');
+KEY.forEach((k, q) => {
+  const r = document.createElement('div'); r.className = 'bub';
+  r.innerHTML = '<i>' + (q + 1) + '</i>' + [0, 1, 2, 3].map(o => '<span class="' + (o === k ? 'on' : '') + '">' + 'ABCD'[o] + '</span>').join('');
+  kg.appendChild(r);
+});
+// Scan check (step 3): chosen vs key, two rows flagged
+const rows = [[1, 1], [2, 0], [0, 0], [3, 3], [1, 2], [-1, 3], [2, 2], [null, 1]];
+const sg = document.getElementById('scangrid');
+rows.forEach(([c, k], q) => {
+  const r = document.createElement('div'); r.className = 'bub' + (c === -1 || c === null ? ' flag' : '');
+  r.innerHTML = '<i>' + (q + 1) + '</i>' + [0, 1, 2, 3].map(o => {
+    const cls = c === -1 && (o === 1 || o === 3) ? 'bad' : o === c ? (c === k ? 'on' : 'bad') : o === k ? 'key' : '';
+    return '<span class="' + cls + '">' + 'ABCD'[o] + '</span>';
+  }).join('') + (c === -1 ? '<b style="font-size:10px;color:var(--red);margin-left:4px">2+</b>' : '');
+  sg.appendChild(r);
+});
+// Growth graph (step 4)
+(function () {
+  const svg = document.getElementById('growth'), me = [63, 69, 71, 74], avg = [60, 59, 61, 60], labels = ['Mock 1', 'Mock 2', 'Mock 3', 'Mock 4'];
+  const L = 30, R = 250, T = 8, B = 124, x = i => L + i * (R - L) / 3, y = v => B - v / 100 * (B - T);
+  let s = '';
+  for (const g of [0, 25, 50, 75, 100]) s += '<line x1="' + L + '" x2="' + R + '" y1="' + y(g) + '" y2="' + y(g) + '" stroke="#EBEDF5"/><text x="' + (L - 5) + '" y="' + (y(g) + 3) + '" font-size="8" fill="#5F6888" text-anchor="end" font-family="Plus Jakarta Sans">' + g + '%</text>';
+  const path = a => a.map((v, i) => (i ? 'L' : 'M') + x(i) + ',' + y(v)).join(' ');
+  s += '<path d="' + path(me) + ' L' + x(3) + ',' + B + ' L' + x(0) + ',' + B + ' Z" fill="rgba(42,63,158,.10)"/>';
+  s += '<path d="' + path(avg) + '" fill="none" stroke="#F5A524" stroke-width="2" stroke-dasharray="5 4"/>';
+  s += '<path d="' + path(me) + '" fill="none" stroke="#2A3F9E" stroke-width="2.5" stroke-linejoin="round"/>';
+  me.forEach((v, i) => { s += '<circle cx="' + x(i) + '" cy="' + y(avg[i]) + '" r="2.6" fill="#F5A524" stroke="#fff" stroke-width="1.2"/><circle cx="' + x(i) + '" cy="' + y(v) + '" r="' + (i === 3 ? 5 : 4) + '" fill="#2A3F9E" stroke="#fff" stroke-width="2"/><text x="' + x(i) + '" y="' + (B + 16) + '" font-size="8.5" fill="#5F6888" text-anchor="middle" font-family="Plus Jakarta Sans">' + labels[i] + '</text>'; });
+  s += '<text x="' + x(3) + '" y="' + (y(74) - 9) + '" font-size="9" font-weight="700" fill="#142057" text-anchor="middle" font-family="Plus Jakarta Sans">74%</text>';
+  svg.innerHTML = s;
+})();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+// Draw the real PDFs sharply on the page.
+(async () => {
+  if (!window.pdfjsLib) return;
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  for (const [id, url, crop] of [['pdf-omr', 'assets/omr-sheet.pdf', 1], ['pdf-qp', 'assets/question-paper.pdf', 0.62]]) {
+    try {
+      const pdf = await pdfjsLib.getDocument(url).promise, page = await pdf.getPage(1);
+      const canvas = document.getElementById(id), scale = 2.2, vp = page.getViewport({scale});
+      canvas.width = vp.width; canvas.height = Math.round(vp.height * crop);
+      const ctx = canvas.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+      await page.render({canvasContext: ctx, viewport: vp}).promise;
+    } catch (e) { /* the PDF link below still works */ }
+  }
+})();
+</script>
+</body>
+</html>
